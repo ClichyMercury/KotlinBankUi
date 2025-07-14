@@ -1,4 +1,4 @@
-package com.example.kotlinbankui
+package com.example.kotlinbankui.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.kotlinbankui.data.FinanceItem
+import com.example.kotlinbankui.domain.models.FinanceItem
 import com.example.kotlinbankui.ui.theme.BlueStart
 import com.example.kotlinbankui.ui.theme.GreenStart
 import com.example.kotlinbankui.ui.theme.OrangeStart

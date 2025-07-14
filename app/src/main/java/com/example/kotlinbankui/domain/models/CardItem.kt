@@ -1,4 +1,4 @@
-package com.example.kotlinbankui.data
+package com.example.kotlinbankui.domain.models
 
 import androidx.compose.ui.graphics.Brush
 

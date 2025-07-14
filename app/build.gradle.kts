@@ -57,9 +57,19 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+
     // system UI Controller
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
     // Extended Icons
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
+    // Navigation (pour plus tard)
+    implementation("androidx.navigation:navigation-compose:2.7.6")
+
+    // Google Fonts
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.5.8")
 }
