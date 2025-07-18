@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlinbankui.presentation.components.BottomNavigationBar
+import com.example.kotlinbankui.presentation.navigation.NavigationRoutes
 
 data class BankNotification(
     val id: String,
@@ -177,7 +178,7 @@ fun NotificationsScreen(navController: NavController) {
                             groupedNotifications[dateGroup]?.forEach { notification ->
                                 NotificationItem(
                                     notification = notification,
-                                    onClick = { /* TODO: Handle notification click */ },
+                                    onClick = { navController.navigate(NavigationRoutes.notificationDetail(notification.id))},
                                     onMarkAsRead = { /* TODO: Mark as read */ }
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))

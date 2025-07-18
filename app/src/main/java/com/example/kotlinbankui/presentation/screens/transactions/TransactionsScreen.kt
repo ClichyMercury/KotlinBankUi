@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlinbankui.presentation.components.BottomNavigationBar
+import com.example.kotlinbankui.presentation.navigation.NavigationRoutes
 
 data class TransactionDetail(
     val id: String,
@@ -163,7 +164,7 @@ fun TransactionsScreen(navController: NavController) {
                     groupedTransactions[date]?.forEach { transaction ->
                         TransactionDetailItem(
                             transaction = transaction,
-                            onClick = { /* TODO: Transaction detail */ }
+                            onClick = {  navController.navigate(NavigationRoutes.transactionDetail(transaction.id)) }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     }

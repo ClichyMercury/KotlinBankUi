@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlinbankui.presentation.components.*
+import com.example.kotlinbankui.presentation.components.cards.CardsSection
+import com.example.kotlinbankui.presentation.navigation.NavigationRoutes
 
 data class QuickActionHome(
     val title: String,
@@ -112,7 +114,11 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                CardsSection()
+                CardsSection(
+                    onCardClick = { cardId ->
+                        navController.navigate(NavigationRoutes.cardDetail(cardId))
+                    }
+                )
             }
 
             item {

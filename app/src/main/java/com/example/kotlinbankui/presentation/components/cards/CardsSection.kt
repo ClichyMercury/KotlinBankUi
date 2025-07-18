@@ -1,4 +1,4 @@
-package com.example.kotlinbankui.presentation.components
+package com.example.kotlinbankui.presentation.components.cards
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +36,7 @@ import com.example.kotlinbankui.ui.theme.PurpleStart
 
 val cards = listOf(
     CardItem(
+        id = "1",
         cardType = "VISA",
         cardNumber = "7856 5694 2641 5154",
         cardName = "Business",
@@ -44,6 +45,7 @@ val cards = listOf(
     ),
 
     CardItem(
+        id = "2",
         cardType = "MASTER CARD",
         cardNumber = "8964 2545 5887 1586",
         cardName = "Savings",
@@ -52,6 +54,7 @@ val cards = listOf(
     ),
 
     CardItem(
+        id = "3",
         cardType = "VISA",
         cardNumber = "4526 1758 3624 9651",
         cardName = "School",
@@ -60,6 +63,7 @@ val cards = listOf(
     ),
 
     CardItem(
+        id = "4",
         cardType = "MASTER CARD",
         cardNumber = "7856 5694 2641 5154",
         cardName = "Trips",
@@ -72,24 +76,30 @@ fun getGradient(
     startColor : Color,
     endColor : Color,
 ) : Brush {
-        return Brush.horizontalGradient(
-            colors = listOf(startColor, endColor)
-        )
+    return Brush.horizontalGradient(
+        colors = listOf(startColor, endColor)
+    )
 }
 
 @Preview
 @Composable
-fun CardsSection() {
+fun CardsSection(
+    onCardClick: (String) -> Unit = {} // Ajouter callback pour navigation
+) {
     LazyRow {
         items(cards.size) { index ->
-            CardComposable(index)
+            CardComposable(
+                index = index,
+                onCardClick = onCardClick
+            )
         }
     }
 }
 
 @Composable
 fun CardComposable(
-    index : Int
+    index : Int,
+    onCardClick: (String) -> Unit = {} // Ajouter callback
 ) {
     val card = cards[index]
     var lastItemPadding = 0.dp
@@ -112,7 +122,7 @@ fun CardComposable(
                 .background(card.color)
                 .width(250.dp)
                 .height(160.dp)
-                .clickable {}
+                .clickable { onCardClick(card.id) } // Utiliser le callback
                 .padding(vertical = 12.dp, horizontal = 16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
