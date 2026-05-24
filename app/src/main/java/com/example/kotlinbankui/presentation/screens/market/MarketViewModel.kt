@@ -3,9 +3,11 @@ package com.example.kotlinbankui.presentation.screens.market
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlinbankui.data.market.MarketRepository
+import com.example.kotlinbankui.data.network.dto.AssetResponse
 import com.example.kotlinbankui.data.network.dto.AssetType
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,10 +44,26 @@ class MarketViewModel @Inject constructor(
             marketRepository.listAssets(_uiState.value.selectedType)
                 .onSuccess { list ->
                     _uiState.update { it.copy(assets = list, isLoading = false, isRefreshing = false) }
+                    loadSparklines(list)
                 }
                 .onFailure { e ->
                     _uiState.update { it.copy(isLoading = false, isRefreshing = false, errorMessage = e.uiMessage()) }
                 }
+        }
+    }
+
+    private fun loadSparklines(assets: List<AssetResponse>) {
+        if (assets.isEmpty()) return
+        viewModelScope.launch {
+            val results = assets.map { asset ->
+                async {
+                    asset.id to marketRepository.getCandles(asset.id, days = 7)
+                        .getOrNull()
+                        ?.map { it.close.toFloat() }
+                }
+            }.map { it.await() }
+            val map = results.mapNotNull { (id, prices) -> prices?.let { id to it } }.toMap()
+            _uiState.update { it.copy(sparklines = it.sparklines + map) }
         }
     }
 }

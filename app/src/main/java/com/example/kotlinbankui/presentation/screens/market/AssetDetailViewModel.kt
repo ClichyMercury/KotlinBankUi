@@ -21,17 +21,40 @@ class AssetDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AssetDetailUiState(isLoading = true))
     val uiState: StateFlow<AssetDetailUiState> = _uiState.asStateFlow()
 
+    private var currentAssetId: UUID? = null
+
     fun load(assetId: String) {
         val uuid = runCatching { UUID.fromString(assetId) }.getOrNull()
         if (uuid == null) {
             _uiState.update { it.copy(isLoading = false, errorMessage = "Identifiant invalide") }
             return
         }
+        currentAssetId = uuid
         _uiState.update { it.copy(isLoading = true, errorMessage = null) }
         viewModelScope.launch {
             marketRepository.getAsset(uuid)
                 .onSuccess { a -> _uiState.update { it.copy(asset = a, isLoading = false) } }
                 .onFailure { e -> _uiState.update { it.copy(isLoading = false, errorMessage = e.uiMessage()) } }
+        }
+        loadCandles(uuid, _uiState.value.selectedPeriod)
+    }
+
+    fun selectPeriod(period: CandlePeriod) {
+        if (_uiState.value.selectedPeriod == period && _uiState.value.candles.isNotEmpty()) return
+        _uiState.update { it.copy(selectedPeriod = period) }
+        currentAssetId?.let { loadCandles(it, period) }
+    }
+
+    private fun loadCandles(assetId: UUID, period: CandlePeriod) {
+        _uiState.update { it.copy(isLoadingCandles = true, candlesErrorMessage = null) }
+        viewModelScope.launch {
+            marketRepository.getCandles(assetId, period.days)
+                .onSuccess { list ->
+                    _uiState.update { it.copy(candles = list, isLoadingCandles = false) }
+                }
+                .onFailure { e ->
+                    _uiState.update { it.copy(isLoadingCandles = false, candlesErrorMessage = e.uiMessage()) }
+                }
         }
     }
 }

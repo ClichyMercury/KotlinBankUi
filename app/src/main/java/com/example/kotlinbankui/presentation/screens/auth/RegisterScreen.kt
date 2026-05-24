@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -57,18 +58,21 @@ fun RegisterScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.height(8.dp))
+
             Text(
-                text = "Bienvenue sur FinSim",
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onSurface
+                text = "Démarrons avec\n10 000 \$ fictifs.",
+                style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontWeight = FontWeight.ExtraBold
             )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "10 000 \$ fictifs t'attendent à l'inscription",
-                style = MaterialTheme.typography.bodyMedium,
+                text = "Crée ton compte FinSim et trade sur des marchés réels sans risque.",
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             FinSimTextField(
                 value = state.email,
@@ -85,7 +89,7 @@ fun RegisterScreen(
                 value = state.pseudo,
                 onValueChange = viewModel::onPseudoChange,
                 label = "Pseudo",
-                supportingText = "3 à 50 caractères, lettres, chiffres ou _",
+                supportingText = "3-50 caractères : lettres, chiffres ou _",
                 enabled = !state.isLoading
             )
 
@@ -115,10 +119,10 @@ fun RegisterScreen(
                 ErrorBanner(message = msg)
             }
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             OrderButton(
-                text = "S'inscrire",
+                text = "Créer mon compte",
                 onClick = viewModel::submit,
                 enabled = state.canSubmit,
                 isLoading = state.isLoading

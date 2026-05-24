@@ -6,6 +6,7 @@ import java.math.BigDecimal
 
 data class BuyUiState(
     val asset: AssetResponse? = null,
+    val availableCash: BigDecimal? = null,
     val quantityText: String = "",
     val isLoadingAsset: Boolean = false,
     val isSubmitting: Boolean = false,
