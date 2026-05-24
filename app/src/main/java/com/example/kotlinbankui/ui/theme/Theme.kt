@@ -1,58 +1,53 @@
 package com.example.kotlinbankui.ui.theme
 
-import android.app.Activity
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
+private val FinSimLightColors = lightColorScheme(
+    primary = FinSimBlue,
+    onPrimary = FinSimSurface,
+    primaryContainer = FinSimBlueLight,
+    onPrimaryContainer = FinSimBlueOnContainer,
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    secondary = FinSimGreen,
+    onSecondary = FinSimSurface,
+    secondaryContainer = FinSimGreenLight,
+    onSecondaryContainer = FinSimGreenOnContainer,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    tertiary = FinSimGold,
+    onTertiary = FinSimSurface,
+    tertiaryContainer = FinSimGoldLight,
+    onTertiaryContainer = FinSimGoldOnContainer,
+
+    error = FinSimRed,
+    onError = FinSimSurface,
+    errorContainer = FinSimRedLight,
+    onErrorContainer = FinSimRedOnContainer,
+
+    background = FinSimBg,
+    onBackground = FinSimTextPrimary,
+
+    surface = FinSimSurface,
+    onSurface = FinSimTextPrimary,
+    surfaceVariant = FinSimSurfaceVariant,
+    onSurfaceVariant = FinSimTextSecondary,
+
+    outline = FinSimOutline,
+    outlineVariant = FinSimOutlineVariant
 )
 
 @Composable
-fun KotlinBankUITheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+fun FinSimTheme(
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
+        colorScheme = FinSimLightColors,
+        typography = FinSimTypography,
         content = content
     )
 }
+
+// Kept as alias for compatibility during the refactor
+@Composable
+fun KotlinBankUITheme(content: @Composable () -> Unit) = FinSimTheme(content)

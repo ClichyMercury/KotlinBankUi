@@ -1,98 +1,101 @@
 package com.example.kotlinbankui.presentation.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.NavType
-import com.example.kotlinbankui.presentation.components.cards.detail.CardDetailScreen
-import com.example.kotlinbankui.presentation.screens.home.HomeScreen
-import com.example.kotlinbankui.presentation.screens.notifications.NotificationsScreen
+import com.example.kotlinbankui.presentation.screens.auth.LoginScreen
+import com.example.kotlinbankui.presentation.screens.auth.RegisterScreen
+import com.example.kotlinbankui.presentation.screens.dashboard.DashboardScreen
+import com.example.kotlinbankui.presentation.screens.market.AssetDetailScreen
+import com.example.kotlinbankui.presentation.screens.market.MarketScreen
+import com.example.kotlinbankui.presentation.screens.orders.OrdersScreen
 import com.example.kotlinbankui.presentation.screens.profile.ProfileScreen
-import com.example.kotlinbankui.presentation.screens.transactions.TransactionsScreen
-import com.example.kotlinbankui.presentation.screens.wallet.WalletScreen
-import com.example.kotlinbankui.presentation.screens.transactions.detail.TransactionDetailScreen
-import com.example.kotlinbankui.presentation.screens.notifications.detail.NotificationDetailScreen
+import com.example.kotlinbankui.presentation.screens.splash.SplashScreen
+import com.example.kotlinbankui.presentation.screens.trading.BuyScreen
 
 @Composable
 fun BankNavigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = NavigationRoutes.HOME
+        startDestination = NavigationRoutes.SPLASH
     ) {
-        composable(NavigationRoutes.HOME) {
-            HomeScreen(navController)
+        composable(NavigationRoutes.SPLASH) {
+            SplashScreen(
+                onAuthenticated = {
+                    navController.navigate(NavigationRoutes.DASHBOARD) {
+                        popUpTo(NavigationRoutes.SPLASH) { inclusive = true }
+                    }
+                },
+                onUnauthenticated = {
+                    navController.navigate(NavigationRoutes.LOGIN) {
+                        popUpTo(NavigationRoutes.SPLASH) { inclusive = true }
+                    }
+                }
+            )
         }
 
-        composable(NavigationRoutes.WALLET) {
-            WalletScreen(navController)
+        composable(NavigationRoutes.LOGIN) {
+            LoginScreen(
+                onLoggedIn = {
+                    navController.navigate(NavigationRoutes.DASHBOARD) {
+                        popUpTo(NavigationRoutes.LOGIN) { inclusive = true }
+                    }
+                },
+                onGoToRegister = { navController.navigate(NavigationRoutes.REGISTER) }
+            )
         }
 
-        composable(NavigationRoutes.TRANSACTIONS) {
-            TransactionsScreen(navController)
+        composable(NavigationRoutes.REGISTER) {
+            RegisterScreen(
+                onRegistered = {
+                    navController.navigate(NavigationRoutes.DASHBOARD) {
+                        popUpTo(NavigationRoutes.LOGIN) { inclusive = true }
+                    }
+                },
+                onBack = { navController.popBackStack() }
+            )
         }
 
-        composable(NavigationRoutes.NOTIFICATIONS) {
-            NotificationsScreen(navController)
+        composable(NavigationRoutes.DASHBOARD) {
+            DashboardScreen(navController = navController)
+        }
+
+        composable(NavigationRoutes.MARKET) {
+            MarketScreen(navController = navController)
+        }
+
+        composable(NavigationRoutes.ORDERS) {
+            OrdersScreen(navController = navController)
         }
 
         composable(NavigationRoutes.PROFILE) {
-            ProfileScreen(navController)
-        }
-
-        // Detail screens with parameters
-        composable(
-            route = NavigationRoutes.TRANSACTION_DETAIL,
-            arguments = listOf(
-                navArgument("transactionId") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            val transactionId = backStackEntry.arguments?.getString("transactionId") ?: ""
-            TransactionDetailScreen(
+            ProfileScreen(
                 navController = navController,
-                transactionId = transactionId
+                onLogout = {
+                    navController.navigate(NavigationRoutes.LOGIN) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
             )
         }
 
         composable(
-            route = NavigationRoutes.CARD_DETAIL,
-            arguments = listOf(
-                navArgument("cardId") { type = NavType.StringType }
-            )
+            route = NavigationRoutes.ASSET_DETAIL,
+            arguments = listOf(navArgument("assetId") { type = NavType.StringType })
         ) { backStackEntry ->
-            val cardId = backStackEntry.arguments?.getString("cardId") ?: ""
-            CardDetailScreen(
-                navController = navController,
-                cardId = cardId
-            )
+            val assetId = backStackEntry.arguments?.getString("assetId") ?: ""
+            AssetDetailScreen(navController = navController, assetId = assetId)
         }
 
         composable(
-            route = NavigationRoutes.NOTIFICATION_DETAIL,
-            arguments = listOf(
-                navArgument("notificationId") { type = NavType.StringType }
-            )
+            route = NavigationRoutes.BUY,
+            arguments = listOf(navArgument("assetId") { type = NavType.StringType })
         ) { backStackEntry ->
-            val notificationId = backStackEntry.arguments?.getString("notificationId") ?: ""
-            NotificationDetailScreen(
-                navController = navController,
-                notificationId = notificationId
-            )
+            val assetId = backStackEntry.arguments?.getString("assetId") ?: ""
+            BuyScreen(navController = navController, assetId = assetId)
         }
-    }
-}
-
-@Composable
-fun PlaceholderScreen(title: String) {
-    androidx.compose.foundation.layout.Box(
-        modifier = androidx.compose.ui.Modifier.fillMaxSize(),
-        contentAlignment = androidx.compose.ui.Alignment.Center
-    ) {
-        androidx.compose.material3.Text(
-            text = title,
-            style = androidx.compose.material3.MaterialTheme.typography.headlineMedium
-        )
     }
 }

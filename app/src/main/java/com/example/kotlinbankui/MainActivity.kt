@@ -7,40 +7,44 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
+import com.example.kotlinbankui.data.auth.SessionManager
 import com.example.kotlinbankui.presentation.navigation.BankNavigation
-import com.example.kotlinbankui.ui.theme.KotlinBankUITheme
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.example.kotlinbankui.presentation.navigation.NavigationRoutes
+import com.example.kotlinbankui.ui.theme.FinSimTheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject lateinit var sessionManager: SessionManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            KotlinBankUITheme {
-                SetBarColor(color = MaterialTheme.colorScheme.background)
+            FinSimTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
+
+                    LaunchedEffect(Unit) {
+                        sessionManager.loggedOut.collect {
+                            navController.navigate(NavigationRoutes.LOGIN) {
+                                popUpTo(0) { inclusive = true }
+                                launchSingleTop = true
+                            }
+                        }
+                    }
+
                     BankNavigation(navController = navController)
                 }
             }
-        }
-    }
-
-    @Composable
-    private fun SetBarColor(color: Color) {
-        val systemUiController = rememberSystemUiController()
-        SideEffect {
-            systemUiController.setSystemBarsColor(
-                color = color
-            )
         }
     }
 }
