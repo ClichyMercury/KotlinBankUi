@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    kotlin("native.cocoapods")
 }
 
 kotlin {
@@ -17,13 +18,20 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64(),
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        version = "1.0.0"
+        summary = "FinSim shared module (UI + data + DI)"
+        homepage = "https://example.com/finsim"
+        ios.deploymentTarget = "15.0"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
             baseName = "shared"
             isStatic = true
+            // Fixes the "Cannot infer a bundle ID" warning observed since Phase 1.
+            binaryOption("bundleId", "com.finsim.shared")
         }
     }
 
@@ -54,17 +62,27 @@ kotlin {
             // with CMP 1.8.x since icons are passive resources)
             @Suppress("DEPRECATION")
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
+
+            // DI — exposed because :app calls startKoin with the shared module
+            api(libs.koin.core)
+            api(libs.koin.compose)
+            api(libs.koin.compose.viewmodel)
+
+            // ViewModel KMP + Navigation KMP (JetBrains forks of AndroidX)
+            api(libs.jb.lifecycle.viewmodel)
+            api(libs.jb.lifecycle.viewmodel.compose)
+            api(libs.jb.lifecycle.runtime.compose)
+            api(libs.jb.navigation.compose)
         }
 
         androidMain.dependencies {
             implementation(libs.ktor.client.cio)
             implementation(libs.androidx.datastore.preferences)
+            implementation(libs.koin.android)
         }
 
         iosMain.dependencies {
-            // iOS Ktor engine — added in Phase 5; for Phase 2 the iOS framework only
-            // needs to link, not run HTTP. Repos compile, ApiClient.create() will
-            // need an actual when we add iOS deps in Phase 5.
+            implementation(libs.ktor.client.darwin)
         }
     }
 
