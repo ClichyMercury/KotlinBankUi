@@ -1,6 +1,6 @@
-package com.example.kotlinbankui.data.network
+package com.finsim.data.network
 
-import com.example.kotlinbankui.data.network.dto.ErrorResponse
+import com.finsim.data.network.dto.ErrorResponse
 
 sealed class ApiException(message: String) : RuntimeException(message) {
 

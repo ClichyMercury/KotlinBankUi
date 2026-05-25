@@ -1,8 +1,8 @@
-package com.example.kotlinbankui.data.network.dto
+package com.finsim.data.network.dto
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import kotlin.uuid.Uuid
 import kotlinx.serialization.Serializable
-import java.math.BigDecimal
-import java.util.UUID
 
 @Serializable
 data class PortfolioResponse(
@@ -14,7 +14,7 @@ data class PortfolioResponse(
 
 @Serializable
 data class PortfolioAssetResponse(
-    @Serializable(with = UUIDSerializer::class) val assetId: UUID,
+    @Serializable(with = UuidSerializer::class) val assetId: Uuid,
     val ticker: String,
     val name: String,
     @Serializable(with = BigDecimalSerializer::class) val quantity: BigDecimal,

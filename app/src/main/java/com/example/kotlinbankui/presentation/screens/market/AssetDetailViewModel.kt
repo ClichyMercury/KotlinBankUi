@@ -2,7 +2,7 @@ package com.example.kotlinbankui.presentation.screens.market
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotlinbankui.data.market.MarketRepository
+import com.finsim.data.market.MarketRepository
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,9 +10,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 @HiltViewModel
 class AssetDetailViewModel @Inject constructor(
     private val marketRepository: MarketRepository
@@ -21,10 +23,10 @@ class AssetDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AssetDetailUiState(isLoading = true))
     val uiState: StateFlow<AssetDetailUiState> = _uiState.asStateFlow()
 
-    private var currentAssetId: UUID? = null
+    private var currentAssetId: Uuid? = null
 
     fun load(assetId: String) {
-        val uuid = runCatching { UUID.fromString(assetId) }.getOrNull()
+        val uuid = runCatching { Uuid.parse(assetId) }.getOrNull()
         if (uuid == null) {
             _uiState.update { it.copy(isLoading = false, errorMessage = "Identifiant invalide") }
             return
@@ -45,7 +47,7 @@ class AssetDetailViewModel @Inject constructor(
         currentAssetId?.let { loadCandles(it, period) }
     }
 
-    private fun loadCandles(assetId: UUID, period: CandlePeriod) {
+    private fun loadCandles(assetId: Uuid, period: CandlePeriod) {
         _uiState.update { it.copy(isLoadingCandles = true, candlesErrorMessage = null) }
         viewModelScope.launch {
             marketRepository.getCandles(assetId, period.days)

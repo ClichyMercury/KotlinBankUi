@@ -1,8 +1,8 @@
 package com.example.kotlinbankui.presentation.screens.trading
 
-import com.example.kotlinbankui.data.network.dto.AssetResponse
-import com.example.kotlinbankui.data.network.dto.OrderResponse
-import java.math.BigDecimal
+import com.finsim.data.network.dto.AssetResponse
+import com.finsim.data.network.dto.OrderResponse
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 data class BuyUiState(
     val asset: AssetResponse? = null,
@@ -14,14 +14,14 @@ data class BuyUiState(
     val orderPlaced: OrderResponse? = null
 ) {
     val quantity: BigDecimal? = quantityText.toBigDecimalOrNullSafe()
-    val total: BigDecimal? = if (quantity != null && asset?.lastPrice != null)
-        asset.lastPrice.multiply(quantity)
-    else null
+    val total: BigDecimal? = asset?.lastPrice?.let { price ->
+        quantity?.let { qty -> price.multiply(qty) }
+    }
 
     val canSubmit: Boolean
         get() = !isSubmitting && asset != null && quantity != null && quantity.signum() > 0
 }
 
 private fun String.toBigDecimalOrNullSafe(): BigDecimal? = runCatching {
-    if (isBlank()) null else BigDecimal(replace(',', '.'))
+    if (isBlank()) null else BigDecimal.parseString(replace(',', '.'))
 }.getOrNull()

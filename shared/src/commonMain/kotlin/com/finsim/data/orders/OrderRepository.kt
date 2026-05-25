@@ -1,24 +1,21 @@
-package com.example.kotlinbankui.data.orders
+package com.finsim.data.orders
 
-import com.example.kotlinbankui.data.auth.SessionManager
-import com.example.kotlinbankui.data.auth.TokenStore
-import com.example.kotlinbankui.data.auth.guard
-import com.example.kotlinbankui.data.network.bodyOrThrow
-import com.example.kotlinbankui.data.network.dto.BuyOrderRequest
-import com.example.kotlinbankui.data.network.dto.OrderResponse
-import com.example.kotlinbankui.data.util.requireAuth
-import com.example.kotlinbankui.data.util.runCatchingApi
+import com.finsim.data.auth.SessionManager
+import com.finsim.data.auth.TokenStore
+import com.finsim.data.auth.guard
+import com.finsim.data.network.bodyOrThrow
+import com.finsim.data.network.dto.BuyOrderRequest
+import com.finsim.data.network.dto.OrderResponse
+import com.finsim.data.util.requireAuth
+import com.finsim.data.util.runCatchingApi
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import java.math.BigDecimal
-import java.util.UUID
-import javax.inject.Inject
-import javax.inject.Singleton
+import kotlin.uuid.Uuid
 
-@Singleton
-class OrderRepository @Inject constructor(
+class OrderRepository(
     private val client: HttpClient,
     private val tokenStore: TokenStore,
     private val sessionManager: SessionManager
@@ -33,7 +30,7 @@ class OrderRepository @Inject constructor(
         }
     }
 
-    suspend fun placeBuy(assetId: UUID, quantity: BigDecimal): Result<OrderResponse> = runCatchingApi {
+    suspend fun placeBuy(assetId: Uuid, quantity: BigDecimal): Result<OrderResponse> = runCatchingApi {
         sessionManager.guard {
             val resp = client.post("/api/v1/orders/buy") {
                 requireAuth(tokenStore)

@@ -2,7 +2,7 @@ package com.example.kotlinbankui.presentation.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotlinbankui.data.auth.AuthRepository
+import com.finsim.data.auth.AuthRepository
 import com.example.kotlinbankui.data.auth.ThemePreference
 import com.example.kotlinbankui.data.auth.ThemePreferenceStore
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage

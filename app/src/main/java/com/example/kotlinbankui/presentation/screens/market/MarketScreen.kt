@@ -37,8 +37,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import com.example.kotlinbankui.data.network.dto.AssetResponse
-import com.example.kotlinbankui.data.network.dto.AssetType
+import com.finsim.data.network.dto.AssetResponse
+import com.finsim.data.network.dto.AssetType
 import com.example.kotlinbankui.presentation.components.finsim.AssetAvatar
 import com.example.kotlinbankui.presentation.components.finsim.EmptyState
 import com.example.kotlinbankui.presentation.components.finsim.ErrorBanner
@@ -49,7 +49,6 @@ import com.example.kotlinbankui.presentation.components.finsim.formatMoney
 import com.example.kotlinbankui.presentation.navigation.NavigationRoutes
 import com.example.kotlinbankui.ui.theme.MoneyText as MoneyTextStyle
 import kotlinx.coroutines.delay
-import java.util.UUID
 
 @Composable
 fun MarketScreen(
@@ -201,5 +200,3 @@ private fun TypeFilterRow(
     }
 }
 
-@Suppress("unused")
-private val unusedUuid: UUID? = null

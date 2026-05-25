@@ -50,9 +50,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.navigation.NavController
-import com.example.kotlinbankui.data.network.dto.PortfolioAssetResponse
-import com.example.kotlinbankui.data.network.dto.PortfolioResponse
-import com.example.kotlinbankui.data.network.dto.UserResponse
+import com.finsim.data.network.dto.PortfolioAssetResponse
+import com.finsim.data.network.dto.PortfolioResponse
+import com.finsim.data.network.dto.UserResponse
 import com.example.kotlinbankui.presentation.components.finsim.AssetAvatar
 import com.example.kotlinbankui.presentation.components.finsim.EmptyState
 import com.example.kotlinbankui.presentation.components.finsim.ErrorBanner
@@ -70,9 +70,11 @@ import com.example.kotlinbankui.ui.theme.MoneyHero
 import com.example.kotlinbankui.ui.theme.MoneyText as MoneyTextStyle
 import com.example.kotlinbankui.ui.theme.NightGradientEnd
 import com.example.kotlinbankui.ui.theme.NightGradientStart
-import java.math.BigDecimal
-import java.util.UUID
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun DashboardScreen(
     navController: NavController,
@@ -122,7 +124,7 @@ fun DashboardScreen(
 private fun DashboardContent(
     portfolio: PortfolioResponse,
     user: UserResponse?,
-    sparklines: Map<UUID, List<Float>>,
+    sparklines: Map<Uuid, List<Float>>,
     errorMessage: String?,
     contentPadding: PaddingValues,
     onRetry: () -> Unit,

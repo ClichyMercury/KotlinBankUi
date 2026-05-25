@@ -1,8 +1,8 @@
-package com.example.kotlinbankui.data.network.dto
+package com.finsim.data.network.dto
 
+import kotlin.uuid.Uuid
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import java.time.Instant
-import java.util.UUID
 
 @Serializable
 data class RegisterRequest(
@@ -27,7 +27,7 @@ data class AuthResponse(
 
 @Serializable
 data class UserResponse(
-    @Serializable(with = UUIDSerializer::class) val id: UUID,
+    @Serializable(with = UuidSerializer::class) val id: Uuid,
     val email: String,
     val pseudo: String,
     @Serializable(with = InstantSerializer::class) val createdAt: Instant

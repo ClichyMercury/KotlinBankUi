@@ -1,7 +1,7 @@
 package com.example.kotlinbankui.presentation.screens.market
 
-import com.example.kotlinbankui.data.network.dto.AssetResponse
-import com.example.kotlinbankui.data.network.dto.CandleResponse
+import com.finsim.data.network.dto.AssetResponse
+import com.finsim.data.network.dto.CandleResponse
 
 enum class CandlePeriod(val days: Int, val label: String) {
     DAY(1, "1J"),

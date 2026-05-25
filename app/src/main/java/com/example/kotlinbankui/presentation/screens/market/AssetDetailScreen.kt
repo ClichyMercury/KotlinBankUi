@@ -36,8 +36,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.kotlinbankui.data.network.dto.AssetResponse
-import com.example.kotlinbankui.data.network.dto.CandleResponse
+import com.finsim.data.network.dto.AssetResponse
+import com.finsim.data.network.dto.CandleResponse
 import com.example.kotlinbankui.presentation.components.finsim.AssetAvatar
 import com.example.kotlinbankui.presentation.components.finsim.ErrorBanner
 import com.example.kotlinbankui.presentation.components.finsim.FinSimTopBar
@@ -49,9 +49,11 @@ import com.example.kotlinbankui.presentation.components.finsim.PriceChart
 import com.example.kotlinbankui.presentation.components.finsim.formatMoney
 import com.example.kotlinbankui.presentation.navigation.NavigationRoutes
 import com.example.kotlinbankui.ui.theme.MoneyHero
-import java.math.BigDecimal
-import java.time.Duration
-import java.time.Instant
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.DecimalMode
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 @Composable
 fun AssetDetailScreen(
@@ -151,8 +153,8 @@ private fun AssetIdentity(asset: AssetResponse, candles: List<CandleResponse>) {
         val last = candles.last().close
         if (first.signum() == 0) null
         else last.subtract(first)
-            .multiply(BigDecimal(100))
-            .divide(first, 4, java.math.RoundingMode.HALF_UP)
+            .multiply(BigDecimal.fromInt(100))
+            .divide(first, DecimalMode(20, RoundingMode.ROUND_HALF_AWAY_FROM_ZERO, scale = 4))
     } else null
 
     Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
@@ -223,7 +225,7 @@ private fun ChartSection(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
-                else -> PriceChart(prices = candles.map { it.close.toFloat() })
+                else -> PriceChart(prices = candles.map { it.close.floatValue(exactRequired = false) })
             }
         }
 
@@ -334,8 +336,7 @@ private fun StickyBuyBar(ticker: String, onBuy: () -> Unit) {
 }
 
 private fun freshness(instant: Instant): String {
-    val delta = Duration.between(instant, Instant.now())
-    val seconds = delta.seconds
+    val seconds = (Clock.System.now() - instant).inWholeSeconds
     return when {
         seconds < 60 -> "il y a ${seconds}s"
         seconds < 3600 -> "il y a ${seconds / 60} min"

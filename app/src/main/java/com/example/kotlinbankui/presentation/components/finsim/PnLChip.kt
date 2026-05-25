@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.example.kotlinbankui.ui.theme.TrendDown
 import com.example.kotlinbankui.ui.theme.TrendNeutral
 import com.example.kotlinbankui.ui.theme.TrendUp
-import java.math.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 
 @Composable
 fun PnLChip(

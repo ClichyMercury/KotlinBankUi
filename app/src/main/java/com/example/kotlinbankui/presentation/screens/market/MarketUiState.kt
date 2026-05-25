@@ -1,12 +1,14 @@
 package com.example.kotlinbankui.presentation.screens.market
 
-import com.example.kotlinbankui.data.network.dto.AssetResponse
-import com.example.kotlinbankui.data.network.dto.AssetType
-import java.util.UUID
+import com.finsim.data.network.dto.AssetResponse
+import com.finsim.data.network.dto.AssetType
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 data class MarketUiState(
     val assets: List<AssetResponse> = emptyList(),
-    val sparklines: Map<UUID, List<Float>> = emptyMap(),
+    val sparklines: Map<Uuid, List<Float>> = emptyMap(),
     val selectedType: AssetType? = null,
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,

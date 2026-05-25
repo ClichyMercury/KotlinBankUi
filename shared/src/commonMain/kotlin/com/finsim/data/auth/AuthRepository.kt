@@ -1,22 +1,19 @@
-package com.example.kotlinbankui.data.auth
+package com.finsim.data.auth
 
-import com.example.kotlinbankui.data.network.ApiException
-import com.example.kotlinbankui.data.network.bodyOrThrow
-import com.example.kotlinbankui.data.network.dto.AuthResponse
-import com.example.kotlinbankui.data.network.dto.LoginRequest
-import com.example.kotlinbankui.data.network.dto.RegisterRequest
-import com.example.kotlinbankui.data.network.dto.UserResponse
+import com.finsim.data.network.ApiException
+import com.finsim.data.network.bodyOrThrow
+import com.finsim.data.network.dto.AuthResponse
+import com.finsim.data.network.dto.LoginRequest
+import com.finsim.data.network.dto.RegisterRequest
+import com.finsim.data.network.dto.UserResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AuthRepository @Inject constructor(
+class AuthRepository(
     private val client: HttpClient,
     private val tokenStore: TokenStore,
     private val sessionManager: SessionManager

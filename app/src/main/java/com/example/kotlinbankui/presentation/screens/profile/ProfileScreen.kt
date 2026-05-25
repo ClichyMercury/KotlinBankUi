@@ -47,7 +47,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.navigation.NavController
 import com.example.kotlinbankui.data.auth.ThemePreference
-import com.example.kotlinbankui.data.network.dto.UserResponse
+import com.finsim.data.network.dto.UserResponse
 import com.example.kotlinbankui.presentation.components.finsim.ErrorBanner
 import com.example.kotlinbankui.presentation.components.finsim.FinSimBottomBar
 import com.example.kotlinbankui.presentation.components.finsim.LoadingScreen
@@ -59,6 +59,7 @@ import com.finsim.shared.HelloFinSim
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import kotlinx.datetime.toJavaInstant
 
 @Composable
 fun ProfileScreen(
@@ -360,4 +361,4 @@ private val memberDateFormatter = DateTimeFormatter
     .withZone(ZoneId.systemDefault())
 
 private fun formatMemberSince(user: UserResponse): String =
-    memberDateFormatter.format(user.createdAt).replaceFirstChar { it.uppercase() }
+    memberDateFormatter.format(user.createdAt.toJavaInstant()).replaceFirstChar { it.uppercase() }

@@ -1,21 +1,16 @@
-package com.example.kotlinbankui.data.auth
+package com.finsim.data.auth
 
-import com.example.kotlinbankui.data.network.ApiException
+import com.finsim.data.network.ApiException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Centralizes session lifecycle: clears the persisted token on auth failure
  * and broadcasts a one-shot logout event for the navigation layer.
  */
-@Singleton
-class SessionManager @Inject constructor(
-    private val tokenStore: TokenStore
-) {
+class SessionManager(private val tokenStore: TokenStore) {
 
     private val _loggedOut = MutableSharedFlow<Unit>(
         replay = 0,

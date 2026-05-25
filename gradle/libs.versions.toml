@@ -19,6 +19,8 @@ hilt = "2.56"
 hiltNavigationCompose = "1.2.0"
 vico = "2.0.0"
 composeMultiplatform = "1.8.2"
+kotlinxDatetime = "0.6.2"
+bignum = "0.3.10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,6 +55,9 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
+ionspin-bignum = { group = "com.ionspin.kotlin", name = "bignum", version.ref = "bignum" }
+ionspin-bignum-serialization = { group = "com.ionspin.kotlin", name = "bignum-serialization-kotlinx", version.ref = "bignum" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

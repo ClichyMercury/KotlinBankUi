@@ -2,9 +2,9 @@ package com.example.kotlinbankui.presentation.screens.market
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotlinbankui.data.market.MarketRepository
-import com.example.kotlinbankui.data.network.dto.AssetResponse
-import com.example.kotlinbankui.data.network.dto.AssetType
+import com.finsim.data.market.MarketRepository
+import com.finsim.data.network.dto.AssetResponse
+import com.finsim.data.network.dto.AssetType
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 @HiltViewModel
 class MarketViewModel @Inject constructor(
     private val marketRepository: MarketRepository
@@ -59,7 +61,7 @@ class MarketViewModel @Inject constructor(
                 async {
                     asset.id to marketRepository.getCandles(asset.id, days = 7)
                         .getOrNull()
-                        ?.map { it.close.toFloat() }
+                        ?.map { it.close.floatValue(exactRequired = false) }
                 }
             }.map { it.await() }
             val map = results.mapNotNull { (id, prices) -> prices?.let { id to it } }.toMap()

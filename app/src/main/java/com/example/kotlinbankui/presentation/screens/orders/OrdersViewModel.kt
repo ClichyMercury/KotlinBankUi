@@ -2,8 +2,8 @@ package com.example.kotlinbankui.presentation.screens.orders
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotlinbankui.data.market.MarketRepository
-import com.example.kotlinbankui.data.orders.OrderRepository
+import com.finsim.data.market.MarketRepository
+import com.finsim.data.orders.OrderRepository
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 @HiltViewModel
 class OrdersViewModel @Inject constructor(
     private val orderRepository: OrderRepository,

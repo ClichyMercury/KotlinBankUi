@@ -1,16 +1,16 @@
-package com.example.kotlinbankui.data.network.dto
+package com.finsim.data.network.dto
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import kotlin.uuid.Uuid
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import java.math.BigDecimal
-import java.time.Instant
-import java.util.UUID
 
 @Serializable
 enum class AssetType { STOCK, FOREX, CRYPTO }
 
 @Serializable
 data class AssetResponse(
-    @Serializable(with = UUIDSerializer::class) val id: UUID,
+    @Serializable(with = UuidSerializer::class) val id: Uuid,
     val ticker: String,
     val name: String,
     val type: AssetType,

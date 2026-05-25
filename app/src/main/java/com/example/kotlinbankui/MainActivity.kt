@@ -13,7 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.kotlinbankui.data.auth.SessionManager
+import com.finsim.data.auth.SessionManager
 import com.example.kotlinbankui.data.auth.ThemePreference
 import com.example.kotlinbankui.data.auth.ThemePreferenceStore
 import com.example.kotlinbankui.presentation.navigation.BankNavigation

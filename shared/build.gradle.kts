@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -33,6 +34,39 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+
+            // Data layer — exposed in DTO/repo signatures, so api()
+            api(libs.kotlinx.datetime)
+            api(libs.ionspin.bignum)
+            api(libs.ionspin.bignum.serialization)
+            api(libs.kotlinx.serialization.json)
+
+            // Network — internal to repositories
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.serialization.kotlinx.json)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.ktor.client.cio)
+            implementation(libs.androidx.datastore.preferences)
+        }
+
+        iosMain.dependencies {
+            // iOS Ktor engine — added in Phase 5; for Phase 2 the iOS framework only
+            // needs to link, not run HTTP. Repos compile, ApiClient.create() will
+            // need an actual when we add iOS deps in Phase 5.
+        }
+    }
+
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    freeCompilerArgs.add("-opt-in=kotlin.uuid.ExperimentalUuidApi")
+                }
+            }
         }
     }
 }

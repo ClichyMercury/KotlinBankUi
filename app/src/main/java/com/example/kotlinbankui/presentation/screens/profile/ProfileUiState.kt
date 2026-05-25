@@ -1,7 +1,7 @@
 package com.example.kotlinbankui.presentation.screens.profile
 
 import com.example.kotlinbankui.data.auth.ThemePreference
-import com.example.kotlinbankui.data.network.dto.UserResponse
+import com.finsim.data.network.dto.UserResponse
 
 data class ProfileUiState(
     val user: UserResponse? = null,

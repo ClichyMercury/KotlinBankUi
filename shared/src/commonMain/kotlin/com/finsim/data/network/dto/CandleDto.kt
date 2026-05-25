@@ -1,8 +1,8 @@
-package com.example.kotlinbankui.data.network.dto
+package com.finsim.data.network.dto
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import java.math.BigDecimal
-import java.time.Instant
 
 @Serializable
 data class CandleResponse(

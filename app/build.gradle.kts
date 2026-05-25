@@ -38,6 +38,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+        freeCompilerArgs += listOf("-opt-in=kotlin.uuid.ExperimentalUuidApi")
     }
     buildFeatures {
         compose = true
@@ -77,6 +78,9 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.ionspin.bignum)
+    implementation(libs.ionspin.bignum.serialization)
 
     // Charts
     implementation(libs.vico.compose.m3)

@@ -1,10 +1,8 @@
-package com.example.kotlinbankui.data.network
+package com.finsim.data.network
 
-import com.example.kotlinbankui.BuildConfig
-import com.example.kotlinbankui.data.network.dto.ErrorResponse
+import com.finsim.data.network.dto.ErrorResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -29,7 +27,7 @@ object ApiClient {
         encodeDefaults = true
     }
 
-    fun create(): HttpClient = HttpClient(CIO) {
+    fun create(baseUrl: String, debug: Boolean = false): HttpClient = HttpClient {
         expectSuccess = false
 
         install(ContentNegotiation) {
@@ -39,14 +37,14 @@ object ApiClient {
         install(Logging) {
             logger = object : Logger {
                 override fun log(message: String) {
-                    android.util.Log.d("FinSimHttp", message)
+                    println("FinSimHttp: $message")
                 }
             }
-            level = if (BuildConfig.DEBUG) LogLevel.INFO else LogLevel.NONE
+            level = if (debug) LogLevel.INFO else LogLevel.NONE
         }
 
         defaultRequest {
-            url.takeFrom(URLBuilder(BuildConfig.API_BASE_URL))
+            url.takeFrom(URLBuilder(baseUrl))
             contentType(ContentType.Application.Json)
         }
     }

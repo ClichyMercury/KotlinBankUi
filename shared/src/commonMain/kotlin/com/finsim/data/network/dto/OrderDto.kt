@@ -1,9 +1,9 @@
-package com.example.kotlinbankui.data.network.dto
+package com.finsim.data.network.dto
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import kotlin.uuid.Uuid
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import java.math.BigDecimal
-import java.time.Instant
-import java.util.UUID
 
 @Serializable
 enum class OrderType { BUY, SELL }
@@ -13,14 +13,14 @@ enum class OrderStatus { PENDING, EXECUTED, FAILED }
 
 @Serializable
 data class BuyOrderRequest(
-    @Serializable(with = UUIDSerializer::class) val assetId: UUID,
+    @Serializable(with = UuidSerializer::class) val assetId: Uuid,
     @Serializable(with = BigDecimalSerializer::class) val quantity: BigDecimal
 )
 
 @Serializable
 data class OrderResponse(
-    @Serializable(with = UUIDSerializer::class) val id: UUID,
-    @Serializable(with = UUIDSerializer::class) val assetId: UUID,
+    @Serializable(with = UuidSerializer::class) val id: Uuid,
+    @Serializable(with = UuidSerializer::class) val assetId: Uuid,
     val type: OrderType,
     @Serializable(with = BigDecimalSerializer::class) val quantity: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class) val price: BigDecimal,

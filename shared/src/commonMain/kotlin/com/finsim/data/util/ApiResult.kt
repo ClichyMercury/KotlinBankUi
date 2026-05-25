@@ -1,7 +1,7 @@
-package com.example.kotlinbankui.data.util
+package com.finsim.data.util
 
-import com.example.kotlinbankui.data.auth.TokenStore
-import com.example.kotlinbankui.data.network.ApiException
+import com.finsim.data.auth.TokenStore
+import com.finsim.data.network.ApiException
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.bearerAuth
 

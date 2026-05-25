@@ -2,9 +2,9 @@ package com.example.kotlinbankui.presentation.screens.trading
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotlinbankui.data.market.MarketRepository
-import com.example.kotlinbankui.data.orders.OrderRepository
-import com.example.kotlinbankui.data.portfolio.PortfolioRepository
+import com.finsim.data.market.MarketRepository
+import com.finsim.data.orders.OrderRepository
+import com.finsim.data.portfolio.PortfolioRepository
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -13,11 +13,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.util.UUID
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.DecimalMode
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 @HiltViewModel
 class BuyViewModel @Inject constructor(
     private val marketRepository: MarketRepository,
@@ -29,7 +32,7 @@ class BuyViewModel @Inject constructor(
     val uiState: StateFlow<BuyUiState> = _uiState.asStateFlow()
 
     fun load(assetId: String) {
-        val uuid = runCatching { UUID.fromString(assetId) }.getOrNull()
+        val uuid = runCatching { Uuid.parse(assetId) }.getOrNull()
         if (uuid == null) {
             _uiState.update { it.copy(errorMessage = "Identifiant invalide") }
             return
@@ -64,9 +67,14 @@ class BuyViewModel @Inject constructor(
         val cash = state.availableCash ?: return
         val price = state.asset?.lastPrice ?: return
         if (price.signum() <= 0) return
-        val budget = cash.multiply(BigDecimal(percent)).divide(BigDecimal(100), 2, RoundingMode.DOWN)
-        val qty = budget.divide(price, 8, RoundingMode.DOWN)
-        _uiState.update { it.copy(quantityText = qty.stripTrailingZeros().toPlainString(), errorMessage = null) }
+        val budgetMode = DecimalMode(decimalPrecision = 20, roundingMode = RoundingMode.TOWARDS_ZERO, scale = 2)
+        val qtyMode = DecimalMode(decimalPrecision = 20, roundingMode = RoundingMode.TOWARDS_ZERO, scale = 8)
+        val budget = cash.multiply(BigDecimal.fromInt(percent)).divide(BigDecimal.fromInt(100), budgetMode)
+        val qty = budget.divide(price, qtyMode)
+        val cleanText = qty.toPlainString().let {
+            if (it.contains('.')) it.trimEnd('0').trimEnd('.') else it
+        }
+        _uiState.update { it.copy(quantityText = cleanText, errorMessage = null) }
     }
 
     fun submit() {

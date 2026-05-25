@@ -33,9 +33,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.navigation.NavController
-import com.example.kotlinbankui.data.network.dto.OrderResponse
-import com.example.kotlinbankui.data.network.dto.OrderStatus
-import com.example.kotlinbankui.data.network.dto.OrderType
+import com.finsim.data.network.dto.OrderResponse
+import com.finsim.data.network.dto.OrderStatus
+import com.finsim.data.network.dto.OrderType
 import com.example.kotlinbankui.presentation.components.finsim.AssetAvatar
 import com.example.kotlinbankui.presentation.components.finsim.EmptyState
 import com.example.kotlinbankui.presentation.components.finsim.ErrorBanner
@@ -46,13 +46,16 @@ import com.example.kotlinbankui.presentation.components.finsim.formatQuantity
 import com.example.kotlinbankui.ui.theme.TrendDown
 import com.example.kotlinbankui.ui.theme.TrendUp
 import com.example.kotlinbankui.ui.theme.MoneyText as MoneyTextStyle
+import kotlin.uuid.ExperimentalUuidApi
+import kotlinx.datetime.Instant
+import kotlinx.datetime.toJavaInstant
 import java.time.Duration
-import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun OrdersScreen(
     navController: NavController,
@@ -163,7 +166,7 @@ private fun OrderCard(order: OrderResponse, ticker: String) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "${timeFormatter.format(order.createdAt)} • ${statusLabel(order.status)}",
+                    text = "${timeFormatter.format(order.createdAt.toJavaInstant())} • ${statusLabel(order.status)}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -219,7 +222,7 @@ private val timeFormatter: DateTimeFormatter = DateTimeFormatter
 
 private fun groupForDate(instant: Instant): String {
     val today = LocalDate.now(ZoneId.systemDefault())
-    val date = instant.atZone(ZoneId.systemDefault()).toLocalDate()
+    val date = instant.toJavaInstant().atZone(ZoneId.systemDefault()).toLocalDate()
     val days = Duration.between(date.atStartOfDay(), today.atStartOfDay()).toDays()
     return when {
         days == 0L -> "Aujourd'hui"
