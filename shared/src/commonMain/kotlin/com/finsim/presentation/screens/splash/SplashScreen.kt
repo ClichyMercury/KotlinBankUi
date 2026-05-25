@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -13,10 +14,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,12 +31,14 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.finsim.resources.Res
+import com.finsim.resources.logo_landscape
 import com.finsim.ui.theme.BrandGradientEnd
 import com.finsim.ui.theme.BrandGradientStart
 import com.finsim.ui.theme.NightGradientEnd
 import com.finsim.ui.theme.NightGradientStart
+import org.jetbrains.compose.resources.painterResource
 
 enum class SplashDestination { Loading, Home, Login }
 
@@ -81,31 +85,15 @@ fun SplashScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Box(
+            Image(
+                painter = painterResource(Res.drawable.logo_landscape),
+                contentDescription = "FinSim",
                 modifier = Modifier
-                    .size(96.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.12f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "F",
-                    style = MaterialTheme.typography.displayLarge,
-                    color = Color.White,
-                    fontWeight = FontWeight.ExtraBold
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Text(
-                text = "FinSim",
-                style = MaterialTheme.typography.displayMedium,
-                color = Color.White,
-                fontWeight = FontWeight.ExtraBold
+                    .fillMaxWidth(0.85f)
+                    .clip(RoundedCornerShape(20.dp))
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = "Trading simulé, vrai apprentissage",

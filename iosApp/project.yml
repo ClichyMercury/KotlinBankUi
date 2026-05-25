@@ -20,6 +20,8 @@ targets:
       properties:
         CFBundleDisplayName: FinSim
         UILaunchScreen: {}
+        # Compose Multiplatform iOS requires this to enable high-refresh-rate animation.
+        CADisableMinimumFrameDurationOnPhone: true
         # Allow http://localhost:8080 in dev — never ship release without TLS.
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: YES
@@ -27,6 +29,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.finsim.ios
         TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES

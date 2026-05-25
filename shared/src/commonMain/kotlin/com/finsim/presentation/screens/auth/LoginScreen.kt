@@ -1,5 +1,6 @@
 package com.finsim.presentation.screens.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,7 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -36,6 +37,9 @@ import androidx.compose.ui.unit.dp
 import com.finsim.presentation.components.ErrorBanner
 import com.finsim.presentation.components.FinSimTextField
 import com.finsim.presentation.components.OrderButton
+import com.finsim.resources.Res
+import com.finsim.resources.logo_landscape
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun LoginScreen(
@@ -62,20 +66,13 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(64.dp))
 
         // Brand mark
-        Box(
+        Image(
+            painter = painterResource(Res.drawable.logo_landscape),
+            contentDescription = "FinSim",
             modifier = Modifier
-                .size(56.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.primary),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "F",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onPrimary,
-                fontWeight = FontWeight.ExtraBold
-            )
-        }
+                .width(200.dp)
+                .clip(RoundedCornerShape(14.dp))
+        )
 
         Spacer(modifier = Modifier.height(36.dp))
 
