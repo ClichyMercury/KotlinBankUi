@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.finsim.data.market.MarketRepository
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage
+import com.finsim.presentation.screens.market.AssetDetailUiState
+import com.finsim.presentation.screens.market.CandlePeriod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

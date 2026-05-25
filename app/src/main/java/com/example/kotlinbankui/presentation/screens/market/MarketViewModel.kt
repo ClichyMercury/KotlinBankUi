@@ -6,6 +6,7 @@ import com.finsim.data.market.MarketRepository
 import com.finsim.data.network.dto.AssetResponse
 import com.finsim.data.network.dto.AssetType
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage
+import com.finsim.presentation.screens.market.MarketUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow

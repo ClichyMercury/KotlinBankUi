@@ -3,9 +3,10 @@ package com.example.kotlinbankui.presentation.screens.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.finsim.data.auth.AuthRepository
-import com.example.kotlinbankui.data.auth.ThemePreference
+import com.finsim.ui.theme.ThemePreference
 import com.example.kotlinbankui.data.auth.ThemePreferenceStore
 import com.example.kotlinbankui.presentation.screens.dashboard.uiMessage
+import com.finsim.presentation.screens.profile.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

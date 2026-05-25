@@ -4,13 +4,12 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.finsim.ui.theme.ThemePreference
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
-
-enum class ThemePreference { System, Light, Dark }
 
 private val Context.themeDataStore by preferencesDataStore(name = "finsim_theme")
 private val THEME_KEY = stringPreferencesKey("preference")

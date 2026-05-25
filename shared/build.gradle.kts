@@ -46,6 +46,14 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinx.json)
+
+            // Charts
+            implementation(libs.vico.multiplatform.m3)
+
+            // Material icons extended (last published version 1.7.3, ABI-compatible
+            // with CMP 1.8.x since icons are passive resources)
+            @Suppress("DEPRECATION")
+            implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
         }
 
         androidMain.dependencies {
@@ -69,6 +77,11 @@ kotlin {
             }
         }
     }
+}
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.finsim.resources"
 }
 
 android {

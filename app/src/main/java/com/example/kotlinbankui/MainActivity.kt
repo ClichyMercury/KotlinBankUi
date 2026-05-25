@@ -14,11 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.finsim.data.auth.SessionManager
-import com.example.kotlinbankui.data.auth.ThemePreference
+import com.finsim.ui.theme.ThemePreference
 import com.example.kotlinbankui.data.auth.ThemePreferenceStore
 import com.example.kotlinbankui.presentation.navigation.BankNavigation
 import com.example.kotlinbankui.presentation.navigation.NavigationRoutes
-import com.example.kotlinbankui.ui.theme.FinSimTheme
+import com.finsim.ui.theme.FinSimTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

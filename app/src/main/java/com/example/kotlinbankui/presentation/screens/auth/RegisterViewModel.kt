@@ -3,6 +3,7 @@ package com.example.kotlinbankui.presentation.screens.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.finsim.data.auth.AuthRepository
+import com.finsim.presentation.screens.auth.RegisterUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
