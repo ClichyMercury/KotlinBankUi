@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "KotlinBankUI"
 include(":app")
+include(":shared")

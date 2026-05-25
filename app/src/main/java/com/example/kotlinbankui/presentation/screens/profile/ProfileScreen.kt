@@ -55,6 +55,7 @@ import com.example.kotlinbankui.ui.theme.BrandGradientEnd
 import com.example.kotlinbankui.ui.theme.BrandGradientStart
 import com.example.kotlinbankui.ui.theme.NightGradientEnd
 import com.example.kotlinbankui.ui.theme.NightGradientStart
+import com.finsim.shared.HelloFinSim
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -123,6 +124,13 @@ private fun ProfileContent(
         item { InfoCard(user = user) }
         item { ThemeCard(selected = themePreference, onSelect = onThemeSelect) }
         item { LogoutCard(onLogout = onLogout) }
+        item {
+            HelloFinSim(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(20.dp))
+            )
+        }
     }
 }
 
