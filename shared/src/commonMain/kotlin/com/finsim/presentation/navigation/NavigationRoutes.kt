@@ -15,7 +15,9 @@ object NavigationRoutes {
     // Detail / action screens
     const val ASSET_DETAIL = "asset/{assetId}"
     const val BUY = "buy/{assetId}"
+    const val SELL = "sell/{assetId}"
 
     fun assetDetail(assetId: String) = "asset/$assetId"
     fun buy(assetId: String) = "buy/$assetId"
+    fun sell(assetId: String) = "sell/$assetId"
 }

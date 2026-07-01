@@ -16,6 +16,7 @@ import com.finsim.presentation.screens.orders.OrdersRoute
 import com.finsim.presentation.screens.profile.ProfileRoute
 import com.finsim.presentation.screens.splash.SplashRoute
 import com.finsim.presentation.screens.trading.BuyRoute
+import com.finsim.presentation.screens.trading.SellRoute
 
 @Composable
 fun BankNavigation(navController: NavHostController) {
@@ -97,6 +98,14 @@ fun BankNavigation(navController: NavHostController) {
         ) { backStackEntry ->
             val assetId = backStackEntry.arguments?.read { getString("assetId") } ?: ""
             BuyRoute(navController = navController, assetId = assetId)
+        }
+
+        composable(
+            route = NavigationRoutes.SELL,
+            arguments = listOf(navArgument("assetId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val assetId = backStackEntry.arguments?.read { getString("assetId") } ?: ""
+            SellRoute(navController = navController, assetId = assetId)
         }
     }
 }

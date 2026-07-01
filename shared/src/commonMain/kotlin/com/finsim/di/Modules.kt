@@ -15,6 +15,7 @@ import com.finsim.presentation.screens.orders.OrdersViewModel
 import com.finsim.presentation.screens.profile.ProfileViewModel
 import com.finsim.presentation.screens.splash.SplashViewModel
 import com.finsim.presentation.screens.trading.BuyViewModel
+import com.finsim.presentation.screens.trading.SellViewModel
 import io.ktor.client.HttpClient
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
@@ -47,6 +48,7 @@ val sharedModule: Module = module {
     viewModel { OrdersViewModel(orderRepository = get(), marketRepository = get()) }
     viewModel { ProfileViewModel(authRepository = get(), themePreferenceStore = get()) }
     viewModel { BuyViewModel(marketRepository = get(), orderRepository = get(), portfolioRepository = get()) }
+    viewModel { SellViewModel(marketRepository = get(), orderRepository = get(), portfolioRepository = get()) }
 }
 
 data class ApiClientConfig(

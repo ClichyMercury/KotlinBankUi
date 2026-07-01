@@ -18,6 +18,12 @@ data class BuyOrderRequest(
 )
 
 @Serializable
+data class SellOrderRequest(
+    @Serializable(with = UuidSerializer::class) val assetId: Uuid,
+    @Serializable(with = BigDecimalSerializer::class) val quantity: BigDecimal
+)
+
+@Serializable
 data class OrderResponse(
     @Serializable(with = UuidSerializer::class) val id: Uuid,
     @Serializable(with = UuidSerializer::class) val assetId: Uuid,
@@ -27,5 +33,6 @@ data class OrderResponse(
     @Serializable(with = BigDecimalSerializer::class) val total: BigDecimal,
     val status: OrderStatus,
     @Serializable(with = InstantSerializer::class) val createdAt: Instant,
-    @Serializable(with = InstantSerializer::class) val executedAt: Instant? = null
+    @Serializable(with = InstantSerializer::class) val executedAt: Instant? = null,
+    @Serializable(with = BigDecimalSerializer::class) val realizedPnl: BigDecimal? = null
 )

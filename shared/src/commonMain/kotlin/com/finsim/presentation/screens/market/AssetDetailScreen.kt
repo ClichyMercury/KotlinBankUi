@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Sell
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -53,6 +54,7 @@ fun AssetDetailScreen(
     state: AssetDetailUiState,
     onBack: () -> Unit,
     onBuy: () -> Unit,
+    onSell: () -> Unit,
     onSelectPeriod: (CandlePeriod) -> Unit,
     onRetry: () -> Unit
 ) {
@@ -66,7 +68,7 @@ fun AssetDetailScreen(
         },
         bottomBar = {
             state.asset?.let {
-                StickyBuyBar(ticker = it.ticker, onBuy = onBuy)
+                StickyTradeBar(ticker = it.ticker, onBuy = onBuy, onSell = onSell)
             }
         }
     ) { padding ->
@@ -307,19 +309,30 @@ private fun InfoLine(label: String, value: String) {
 }
 
 @Composable
-private fun StickyBuyBar(ticker: String, onBuy: () -> Unit) {
-    Box(
+private fun StickyTradeBar(ticker: String, onBuy: () -> Unit, onSell: () -> Unit) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 20.dp, vertical = 12.dp)
+            .padding(horizontal = 20.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        OrderButton(
-            text = "Acheter $ticker",
-            onClick = onBuy,
-            style = OrderButtonStyle.Buy,
-            leadingIcon = Icons.Outlined.ShoppingCart
-        )
+        Box(modifier = Modifier.weight(1f)) {
+            OrderButton(
+                text = "Vendre",
+                onClick = onSell,
+                style = OrderButtonStyle.Sell,
+                leadingIcon = Icons.Outlined.Sell
+            )
+        }
+        Box(modifier = Modifier.weight(1f)) {
+            OrderButton(
+                text = "Acheter $ticker",
+                onClick = onBuy,
+                style = OrderButtonStyle.Buy,
+                leadingIcon = Icons.Outlined.ShoppingCart
+            )
+        }
     }
 }
 

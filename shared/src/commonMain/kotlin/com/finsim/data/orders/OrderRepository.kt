@@ -6,6 +6,7 @@ import com.finsim.data.auth.guard
 import com.finsim.data.network.bodyOrThrow
 import com.finsim.data.network.dto.BuyOrderRequest
 import com.finsim.data.network.dto.OrderResponse
+import com.finsim.data.network.dto.SellOrderRequest
 import com.finsim.data.util.requireAuth
 import com.finsim.data.util.runCatchingApi
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
@@ -35,6 +36,16 @@ class OrderRepository(
             val resp = client.post("/api/v1/orders/buy") {
                 requireAuth(tokenStore)
                 setBody(BuyOrderRequest(assetId = assetId, quantity = quantity))
+            }
+            resp.bodyOrThrow<OrderResponse>()
+        }
+    }
+
+    suspend fun placeSell(assetId: Uuid, quantity: BigDecimal): Result<OrderResponse> = runCatchingApi {
+        sessionManager.guard {
+            val resp = client.post("/api/v1/orders/sell") {
+                requireAuth(tokenStore)
+                setBody(SellOrderRequest(assetId = assetId, quantity = quantity))
             }
             resp.bodyOrThrow<OrderResponse>()
         }

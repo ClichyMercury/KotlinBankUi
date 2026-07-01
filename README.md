@@ -383,7 +383,7 @@ adb shell 'curl -s http://10.0.2.2:8080/health'
 - [x] Auto-logout sur 401
 - [x] Migration KMP : Android + iOS depuis une base de code unique (Phases 1→5)
 - [x] Graphiques candles (Vico multiplatform)
-- [ ] **Order SELL** (bloqué côté back)
+- [x] Order SELL (avec `realizedPnl` affiché en fin d'ordre)
 - [ ] **Refresh token** (bloqué côté back)
 - [ ] Keychain pour le token côté iOS (prod-ready)
 - [ ] Dark mode (toggle déjà présent, à valider visuellement)

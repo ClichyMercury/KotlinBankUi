@@ -1,29 +1,29 @@
-package com.finsim.presentation.screens.market
+package com.finsim.presentation.screens.trading
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
-import com.finsim.presentation.navigation.NavigationRoutes
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun AssetDetailRoute(
+fun SellRoute(
     navController: NavController,
     assetId: String,
-    viewModel: AssetDetailViewModel = koinViewModel()
+    viewModel: SellViewModel = koinViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 
     LaunchedEffect(assetId) { viewModel.load(assetId) }
 
-    AssetDetailScreen(
+    SellScreen(
         state = state,
         onBack = { navController.popBackStack() },
-        onBuy = { navController.navigate(NavigationRoutes.buy(assetId)) },
-        onSell = { navController.navigate(NavigationRoutes.sell(assetId)) },
-        onSelectPeriod = viewModel::selectPeriod,
-        onRetry = { viewModel.load(assetId) }
+        onQuantityChange = viewModel::onQuantityChange,
+        onPreset = viewModel::applyPercent,
+        onSubmit = viewModel::submit,
+        onRetry = { viewModel.load(assetId) },
+        onDone = { navController.popBackStack() }
     )
 }
