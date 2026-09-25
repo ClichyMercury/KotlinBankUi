@@ -5,6 +5,7 @@ object NavigationRoutes {
     const val SPLASH = "splash"
     const val LOGIN = "login"
     const val REGISTER = "register"
+    const val PASSWORD_RESET = "password-reset"
 
     // Main FinSim tabs
     const val DASHBOARD = "dashboard"
