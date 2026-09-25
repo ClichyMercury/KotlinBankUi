@@ -7,7 +7,6 @@ import com.finsim.data.network.ApiClient
 import com.finsim.data.orders.OrderRepository
 import com.finsim.data.portfolio.PortfolioRepository
 import com.finsim.presentation.screens.auth.LoginViewModel
-import com.finsim.presentation.screens.auth.PasswordResetViewModel
 import com.finsim.presentation.screens.auth.RegisterViewModel
 import com.finsim.presentation.screens.dashboard.DashboardViewModel
 import com.finsim.presentation.screens.market.AssetDetailViewModel
@@ -43,7 +42,6 @@ val sharedModule: Module = module {
     viewModel { SplashViewModel(authRepository = get()) }
     viewModel { LoginViewModel(authRepository = get(), sessionManager = get()) }
     viewModel { RegisterViewModel(authRepository = get()) }
-    viewModel { PasswordResetViewModel(authRepository = get()) }
     viewModel { DashboardViewModel(portfolioRepository = get(), authRepository = get(), marketRepository = get()) }
     viewModel { MarketViewModel(marketRepository = get()) }
     viewModel { AssetDetailViewModel(marketRepository = get()) }

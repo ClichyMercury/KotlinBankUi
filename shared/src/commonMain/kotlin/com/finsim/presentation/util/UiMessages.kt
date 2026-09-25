@@ -18,12 +18,4 @@ fun Throwable.authMessage(): String = when (this) {
     else -> message ?: "Erreur inconnue"
 }
 
-/** Reset-password flow: 401 means a bad or consumed reset code, not an expired session. */
-fun Throwable.passwordResetMessage(): String = when (this) {
-    is ApiException.Http -> if (statusCode == 429) RATE_LIMITED else userMessage
-    is ApiException.Unauthorized -> "Code invalide ou expiré. Demande un nouveau code."
-    is ApiException.Network -> "Pas de connexion au serveur"
-    else -> message ?: "Erreur inconnue"
-}
-
 private const val RATE_LIMITED = "Trop de tentatives, réessaie dans une minute"
