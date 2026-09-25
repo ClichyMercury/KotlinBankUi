@@ -26,6 +26,7 @@ fun ProfileRoute(
         onRefresh = viewModel::refresh,
         onThemeSelect = viewModel::setThemePreference,
         onLogout = viewModel::logout,
+        onLogoutAllDevices = viewModel::logoutAllDevices,
         onLoggedOut = onLogout,
         bottomBar = { AppBottomBar(navController) }
     )

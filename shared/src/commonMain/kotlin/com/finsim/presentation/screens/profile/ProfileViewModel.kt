@@ -50,4 +50,11 @@ class ProfileViewModel(
             _uiState.update { it.copy(loggedOut = true) }
         }
     }
+
+    fun logoutAllDevices() {
+        viewModelScope.launch {
+            authRepository.logoutAll()
+            _uiState.update { it.copy(loggedOut = true) }
+        }
+    }
 }

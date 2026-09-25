@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.PhoneAndroid
@@ -61,6 +62,7 @@ fun ProfileScreen(
     onRefresh: () -> Unit,
     onThemeSelect: (ThemePreference) -> Unit,
     onLogout: () -> Unit,
+    onLogoutAllDevices: () -> Unit,
     onLoggedOut: () -> Unit,
     bottomBar: @Composable () -> Unit
 ) {
@@ -92,7 +94,8 @@ fun ProfileScreen(
                 themePreference = state.themePreference,
                 contentPadding = padding,
                 onThemeSelect = onThemeSelect,
-                onLogout = onLogout
+                onLogout = onLogout,
+                onLogoutAllDevices = onLogoutAllDevices
             )
         }
     }
@@ -104,7 +107,8 @@ private fun ProfileContent(
     themePreference: ThemePreference,
     contentPadding: PaddingValues,
     onThemeSelect: (ThemePreference) -> Unit,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onLogoutAllDevices: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -116,7 +120,7 @@ private fun ProfileContent(
         item { HeaderCard(user = user) }
         item { InfoCard(user = user) }
         item { ThemeCard(selected = themePreference, onSelect = onThemeSelect) }
-        item { LogoutCard(onLogout = onLogout) }
+        item { LogoutCard(onLogout = onLogout, onLogoutAllDevices = onLogoutAllDevices) }
     }
 }
 
@@ -290,33 +294,71 @@ private fun ThemeOption(
 }
 
 @Composable
-private fun LogoutCard(onLogout: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onLogout() },
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-    ) {
-        Row(
+private fun LogoutCard(onLogout: () -> Unit, onLogoutAllDevices: () -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .clickable { onLogout() },
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.error
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Text(
-                text = "Se déconnecter",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.error,
-                fontWeight = FontWeight.SemiBold
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = "Se déconnecter",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.error,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onLogoutAllDevices() },
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Devices,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Text(
+                        text = "Déconnecter tous les appareils",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "Révoque toutes les sessions actives",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
         }
     }
 }

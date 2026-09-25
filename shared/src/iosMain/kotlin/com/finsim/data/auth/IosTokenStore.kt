@@ -2,33 +2,38 @@ package com.finsim.data.auth
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import platform.Foundation.NSUserDefaults
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 
-/**
- * iOS impl backed by NSUserDefaults. Adequate for an MVP — for production-grade
- * secret storage, swap to Keychain (security/Keychain Services).
- */
+private const val ACCESS_ACCOUNT = "access_token"
+private const val REFRESH_ACCOUNT = "refresh_token"
+
 class IosTokenStore : TokenStore {
 
-    private val defaults = NSUserDefaults.standardUserDefaults
-    private val _token = MutableStateFlow(defaults.stringForKey(KEY))
+    private val _token = MutableStateFlow<String?>(null)
 
-    override val token: Flow<String?> = _token.asStateFlow()
+    override val token: Flow<String?> = flow {
+        _token.value = get()
+        emitAll(_token)
+    }
 
-    override suspend fun get(): String? = defaults.stringForKey(KEY)
+    override suspend fun get(): String? = Keychain.read(ACCESS_ACCOUNT)
 
-    override suspend fun save(token: String) {
-        defaults.setObject(token, forKey = KEY)
-        _token.value = token
+    override suspend fun refreshToken(): String? = Keychain.read(REFRESH_ACCOUNT)
+
+    override suspend fun save(accessToken: String, refreshToken: String?) {
+        Keychain.write(ACCESS_ACCOUNT, accessToken)
+        if (refreshToken != null) {
+            Keychain.write(REFRESH_ACCOUNT, refreshToken)
+        } else {
+            Keychain.delete(REFRESH_ACCOUNT)
+        }
+        _token.value = accessToken
     }
 
     override suspend fun clear() {
-        defaults.removeObjectForKey(KEY)
+        Keychain.delete(ACCESS_ACCOUNT)
+        Keychain.delete(REFRESH_ACCOUNT)
         _token.value = null
-    }
-
-    private companion object {
-        const val KEY = "finsim_access_token"
     }
 }
