@@ -33,14 +33,14 @@ val sharedModule: Module = module {
         ApiClient.create(baseUrl = config.baseUrl, debug = config.debug)
     }
 
-    single { SessionManager(tokenStore = get()) }
+    single { SessionManager(client = get(), tokenStore = get()) }
     single { AuthRepository(client = get(), tokenStore = get(), sessionManager = get()) }
     single { MarketRepository(client = get()) }
     single { OrderRepository(client = get(), tokenStore = get(), sessionManager = get()) }
     single { PortfolioRepository(client = get(), tokenStore = get(), sessionManager = get()) }
 
     viewModel { SplashViewModel(authRepository = get()) }
-    viewModel { LoginViewModel(authRepository = get()) }
+    viewModel { LoginViewModel(authRepository = get(), sessionManager = get()) }
     viewModel { RegisterViewModel(authRepository = get()) }
     viewModel { DashboardViewModel(portfolioRepository = get(), authRepository = get(), marketRepository = get()) }
     viewModel { MarketViewModel(marketRepository = get()) }

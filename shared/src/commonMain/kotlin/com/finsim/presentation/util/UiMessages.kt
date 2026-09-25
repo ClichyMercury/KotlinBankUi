@@ -4,7 +4,7 @@ import com.finsim.data.network.ApiException
 
 /** Generic user-facing message for any throwable, with friendly defaults for ApiException. */
 fun Throwable.uiMessage(): String = when (this) {
-    is ApiException.Http -> userMessage
+    is ApiException.Http -> if (statusCode == 429) RATE_LIMITED else userMessage
     is ApiException.Unauthorized -> "Session expirée"
     is ApiException.Network -> "Pas de connexion"
     else -> message ?: "Erreur inconnue"
@@ -12,8 +12,10 @@ fun Throwable.uiMessage(): String = when (this) {
 
 /** Login/Register-specific message: ApiException.Unauthorized means bad credentials. */
 fun Throwable.authMessage(): String = when (this) {
-    is ApiException.Http -> userMessage
+    is ApiException.Http -> if (statusCode == 429) RATE_LIMITED else userMessage
     is ApiException.Unauthorized -> "Email ou mot de passe incorrect"
     is ApiException.Network -> "Pas de connexion au serveur"
     else -> message ?: "Erreur inconnue"
 }
+
+private const val RATE_LIMITED = "Trop de tentatives, réessaie dans une minute"

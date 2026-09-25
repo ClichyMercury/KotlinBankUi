@@ -18,11 +18,37 @@ data class LoginRequest(
 )
 
 @Serializable
+data class RefreshRequest(
+    val refreshToken: String
+)
+
+@Serializable
+data class LogoutRequest(
+    val refreshToken: String
+)
+
+@Serializable
 data class AuthResponse(
     val accessToken: String,
     val tokenType: String = "Bearer",
     val expiresInSeconds: Long,
+    val refreshToken: String? = null,
+    val refreshExpiresInSeconds: Long? = null,
     val user: UserResponse
+)
+
+@Serializable
+data class RefreshResponse(
+    val accessToken: String,
+    val tokenType: String = "Bearer",
+    val expiresInSeconds: Long,
+    val refreshToken: String? = null,
+    val refreshExpiresInSeconds: Long? = null
+)
+
+@Serializable
+data class MessageResponse(
+    val message: String
 )
 
 @Serializable
