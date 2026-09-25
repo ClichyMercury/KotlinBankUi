@@ -12,22 +12,22 @@ import platform.UIKit.UIViewController
 /**
  * Entry point called from iOSApp.swift via ComposeView (UIViewControllerRepresentable).
  *
- * Starts Koin on first call. baseUrl defaults to the iOS Simulator's loopback to host
- * (the macOS running the simulator), which is reachable via `localhost:8080`.
+ * Starts Koin on first call. baseUrl comes from the APIBaseURL Info.plist key, itself fed
+ * by the API_BASE_URL build setting (Debug = dev, Release = prod).
  */
-fun MainViewController(): UIViewController {
-    initKoinIfNeeded()
+fun MainViewController(baseUrl: String, debug: Boolean): UIViewController {
+    initKoinIfNeeded(baseUrl = baseUrl, debug = debug)
     return ComposeUIViewController { FinSimAppRoot() }
 }
 
 private var koinStarted = false
 
-private fun initKoinIfNeeded() {
+private fun initKoinIfNeeded(baseUrl: String, debug: Boolean) {
     if (koinStarted) return
     startKoin {
         modules(
             module {
-                single { ApiClientConfig(baseUrl = "http://localhost:8080", debug = true) }
+                single { ApiClientConfig(baseUrl = baseUrl, debug = debug) }
             },
             iosPlatformModule,
             sharedModule,
