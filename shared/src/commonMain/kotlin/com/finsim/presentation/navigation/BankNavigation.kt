@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.savedstate.read
 import com.finsim.presentation.screens.auth.LoginRoute
+import com.finsim.presentation.screens.auth.PasswordResetRoute
 import com.finsim.presentation.screens.auth.RegisterRoute
 import com.finsim.presentation.screens.dashboard.DashboardRoute
 import com.finsim.presentation.screens.market.AssetDetailRoute
@@ -46,7 +47,19 @@ fun BankNavigation(navController: NavHostController) {
                         popUpTo(NavigationRoutes.LOGIN) { inclusive = true }
                     }
                 },
-                onGoToRegister = { navController.navigate(NavigationRoutes.REGISTER) }
+                onGoToRegister = { navController.navigate(NavigationRoutes.REGISTER) },
+                onGoToPasswordReset = { navController.navigate(NavigationRoutes.PASSWORD_RESET) }
+            )
+        }
+
+        composable(NavigationRoutes.PASSWORD_RESET) {
+            PasswordResetRoute(
+                onDone = {
+                    navController.navigate(NavigationRoutes.LOGIN) {
+                        popUpTo(NavigationRoutes.LOGIN) { inclusive = true }
+                    }
+                },
+                onBack = { navController.popBackStack() }
             )
         }
 
