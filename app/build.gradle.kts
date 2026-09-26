@@ -5,19 +5,32 @@ plugins {
 }
 
 android {
-    namespace = "com.example.kotlinbankui"
+    namespace = "com.finsim.app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.kotlinbankui"
+        applicationId = "com.finsim.app"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080\"")
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080\"")
+        }
+        create("prod") {
+            dimension = "environment"
+            buildConfigField("String", "API_BASE_URL", "\"https://api-finsim.wharpe.com\"")
+        }
     }
 
     buildTypes {

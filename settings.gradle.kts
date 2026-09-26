@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KotlinBankUI"
+rootProject.name = "FinSim"
 include(":app")
 include(":shared")

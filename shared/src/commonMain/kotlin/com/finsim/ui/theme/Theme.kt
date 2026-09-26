@@ -83,6 +83,3 @@ fun FinSimTheme(
         content = content
     )
 }
-
-@Composable
-fun KotlinBankUITheme(content: @Composable () -> Unit) = FinSimTheme(content = content)

@@ -1,6 +1,6 @@
 platform :ios, '15.0'
 
-target 'iosApp' do
+target 'FinSim' do
   use_frameworks!
 
   pod 'shared', :path => '../shared'

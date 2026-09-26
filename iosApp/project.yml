@@ -1,4 +1,4 @@
-name: iosApp
+name: FinSim
 options:
   bundleIdPrefix: com.finsim
   deploymentTarget:
@@ -10,21 +10,23 @@ settings:
     ENABLE_USER_SCRIPT_SANDBOXING: NO
 
 targets:
-  iosApp:
+  FinSim:
     type: application
     platform: iOS
     sources:
-      - path: iosApp
+      - path: FinSim
     info:
-      path: iosApp/Info.plist
+      path: FinSim/Info.plist
       properties:
         CFBundleDisplayName: FinSim
         UILaunchScreen: {}
         # Compose Multiplatform iOS requires this to enable high-refresh-rate animation.
         CADisableMinimumFrameDurationOnPhone: true
-        # Allow http://localhost:8080 in dev — never ship release without TLS.
+        APIBaseURL: $(API_BASE_URL)
+        # Autorise http://localhost:8080 en dev sans ouvrir ATS en grand : couvre les
+        # hôtes non qualifiés et .local, pas les domaines publics.
         NSAppTransportSecurity:
-          NSAllowsArbitraryLoads: YES
+          NSAllowsLocalNetworking: YES
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.finsim.ios
@@ -33,3 +35,30 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+      configs:
+        Debug:
+          API_BASE_URL: http://localhost:8080
+        Release:
+          API_BASE_URL: https://api-finsim.wharpe.com
+
+schemes:
+  FinSim-dev:
+    build:
+      targets:
+        FinSim: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    archive:
+      config: Debug
+  FinSim-prod:
+    build:
+      targets:
+        FinSim: all
+    run:
+      config: Release
+    test:
+      config: Release
+    archive:
+      config: Release

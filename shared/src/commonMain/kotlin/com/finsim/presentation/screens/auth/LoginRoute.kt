@@ -9,7 +9,6 @@ import org.koin.compose.viewmodel.koinViewModel
 fun LoginRoute(
     onLoggedIn: () -> Unit,
     onGoToRegister: () -> Unit,
-    onGoToPasswordReset: () -> Unit,
     viewModel: LoginViewModel = koinViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -19,7 +18,6 @@ fun LoginRoute(
         onPasswordChange = viewModel::onPasswordChange,
         onSubmit = viewModel::submit,
         onLoggedIn = onLoggedIn,
-        onGoToRegister = onGoToRegister,
-        onGoToPasswordReset = onGoToPasswordReset
+        onGoToRegister = onGoToRegister
     )
 }

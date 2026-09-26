@@ -23,17 +23,6 @@ data class RefreshRequest(
 )
 
 @Serializable
-data class ForgotPasswordRequest(
-    val email: String
-)
-
-@Serializable
-data class ResetPasswordRequest(
-    val token: String,
-    val newPassword: String
-)
-
-@Serializable
 data class LogoutRequest(
     val refreshToken: String
 )

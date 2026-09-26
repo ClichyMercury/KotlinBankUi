@@ -1,4 +1,4 @@
-package com.example.kotlinbankui
+package com.finsim.app
 
 import android.app.Application
 import com.finsim.di.ApiClientConfig
