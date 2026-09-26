@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.kotlinbankui"
+    namespace = "com.finsim.app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.kotlinbankui"
+        applicationId = "com.finsim.app"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

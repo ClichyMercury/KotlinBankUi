@@ -1,4 +1,4 @@
-package com.example.kotlinbankui
+package com.finsim.app
 
 import org.junit.Test
 

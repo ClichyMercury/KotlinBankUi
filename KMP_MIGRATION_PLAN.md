@@ -103,7 +103,7 @@ Ces `expect/actual` sont triviaux, ~50 lignes au total côté iOS.
 ## Structure cible du projet
 
 ```
-KotlinBankUi/
+FinSim/
 ├── shared/                              ← nouveau module KMP
 │   └── src/
 │       ├── commonMain/kotlin/com/finsim/
@@ -126,7 +126,7 @@ KotlinBankUi/
 │           └── MainActivity.kt          (juste enableEdgeToEdge + setContent { FinSimApp() })
 │
 └── iosApp/                              ← projet Xcode
-    └── iosApp/
+    └── FinSim/
         ├── iOSApp.swift                 (entry point Swift)
         └── ContentView.swift            (host le ComposeUIViewController)
 ```

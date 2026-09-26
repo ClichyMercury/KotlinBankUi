@@ -56,7 +56,7 @@ L'app est branchée live sur le backend FinSim. Pas de mock.
 ## 🏗️ Architecture — multi-module KMP
 
 ```
-KotlinBankUi/
+FinSim/
 ├── shared/                            ← 100% du code applicatif (KMP)
 │   └── src/
 │       ├── commonMain/kotlin/com/finsim/
@@ -94,14 +94,14 @@ KotlinBankUi/
 │           └── shared/MainViewController.kt             init Koin + ComposeUIViewController
 │
 ├── app/                               ← shell Android (2 fichiers Kotlin)
-│   └── src/main/java/com/example/kotlinbankui/
+│   └── src/main/java/com/finsim/app/
 │       ├── FinSimApp.kt               startKoin avec ApiClientConfig depuis BuildConfig
 │       └── MainActivity.kt            setContent { FinSimAppRoot() }
 │
 └── iosApp/                            ← projet Xcode
     ├── project.yml                    spec xcodegen (versionné)
     ├── Podfile                        pod 'shared', :path => '../shared'
-    └── iosApp/
+    └── FinSim/
         ├── iOSApp.swift               @main App
         └── ContentView.swift          UIViewControllerRepresentable → MainViewController()
 ```
@@ -133,7 +133,7 @@ Sanity check : `curl http://localhost:8080/health` → `{"status":"ok","db":true
 - **Android Studio** Ladybug+ (avec AGP 8.13)
 - **Xcode 15+** (testé sur 26.5)
 - **CocoaPods 1.15+** (`brew install cocoapods` ou `sudo gem install cocoapods`)
-- **xcodegen** (`brew install xcodegen`) — pour générer `iosApp.xcodeproj` depuis `project.yml`
+- **xcodegen** (`brew install xcodegen`) — pour générer `FinSim.xcodeproj` depuis `project.yml`
 
 ---
 
@@ -159,7 +159,7 @@ $ANDROID_HOME/emulator/emulator -avd Pixel_8_API_35 &
 
 # Install + run
 ./gradlew :app:installDebug
-adb shell am start -n com.example.kotlinbankui/.MainActivity
+adb shell am start -n com.finsim.app/.MainActivity
 ```
 
 L'`API_BASE_URL` est hardcodée à `http://10.0.2.2:8080` côté Android (alias de
@@ -192,13 +192,13 @@ cd iosApp && xcodegen && cd ..
 cd iosApp && pod install && cd ..
 ```
 
-À partir de là, **ouvre toujours `iosApp/iosApp.xcworkspace`** dans Xcode
+À partir de là, **ouvre toujours `iosApp/FinSim.xcworkspace`** dans Xcode
 (jamais le `.xcodeproj` directement — CocoaPods exige le workspace).
 
 ### Build + run sur Simulator
 
 **Option A — Xcode (recommandé pour dev)**
-1. Ouvre `iosApp/iosApp.xcworkspace`
+1. Ouvre `iosApp/FinSim.xcworkspace`
 2. Sélectionne un simulateur dans le picker (haut)
 3. Run ▶️ (`Cmd+R`)
 
@@ -215,17 +215,17 @@ open -a Simulator
 
 # Build pour le simulateur
 xcodebuild \
-  -workspace iosApp.xcworkspace \
-  -scheme iosApp \
+  -workspace FinSim.xcworkspace \
+  -scheme FinSim-dev \
   -configuration Debug \
   -sdk iphonesimulator \
   -destination 'platform=iOS Simulator,name=iPhone 17' \
   build
 
 # Install + launch
-APP_PATH=$(xcodebuild -workspace iosApp.xcworkspace -scheme iosApp -configuration Debug \
+APP_PATH=$(xcodebuild -workspace FinSim.xcworkspace -scheme FinSim-dev -configuration Debug \
   -sdk iphonesimulator -showBuildSettings 2>/dev/null \
-  | grep -m1 'BUILT_PRODUCTS_DIR' | awk '{print $3}')/iosApp.app
+  | grep -m1 'BUILT_PRODUCTS_DIR' | awk '{print $3}')/FinSim.app
 xcrun simctl install "iPhone 17" "$APP_PATH"
 xcrun simctl launch "iPhone 17" com.finsim.ios
 ```
@@ -283,7 +283,7 @@ pointer vers ton API publique en debug (pas `localhost`).
 
 # Nettoyage complet
 ./gradlew clean
-rm -rf shared/build app/build iosApp/Pods iosApp/iosApp.xcworkspace iosApp/iosApp.xcodeproj
+rm -rf shared/build app/build iosApp/Pods iosApp/FinSim.xcworkspace iosApp/FinSim.xcodeproj
 
 # Voir toutes les tâches d'un module
 ./gradlew :shared:tasks --group "build"
@@ -306,7 +306,7 @@ adb logcat *:E                       # tous les errors
 **iOS Simulator** :
 ```bash
 # Stream les logs de l'app en temps réel
-xcrun simctl spawn "iPhone 17" log stream --predicate 'processImagePath contains "iosApp"' --level=debug
+xcrun simctl spawn "iPhone 17" log stream --predicate 'processImagePath contains "FinSim"' --level=debug
 
 # Récupérer les logs filtrés (FinSimHttp = label ajouté dans ApiClient.kt)
 xcrun simctl spawn "iPhone 17" log stream --predicate 'eventMessage CONTAINS "FinSim"'
@@ -404,7 +404,7 @@ détaillé suivi pendant la migration.
 
 - **Commits** : [Conventional Commits](https://www.conventionalcommits.org/) — `feat:`, `fix:`, `refactor:`, `chore:`, etc.
 - **Package** : tout le code partagé est sous `com.finsim.*`. Le shell `:app`
-  reste sous `com.example.kotlinbankui` (legacy applicationId, non critique).
+  est sous `com.finsim.app` (= applicationId Android, `.dev` suffixé en flavor dev).
 - **Pattern écran** : `XxxScreen` stateless + `XxxRoute` host. Nouveau écran =
   écrire les deux + ajouter au `Modules.kt` + au `BankNavigation`.
 - **Pas de `java.*` dans `:shared/commonMain`** : utiliser `kotlin.*` ou KMP libs.

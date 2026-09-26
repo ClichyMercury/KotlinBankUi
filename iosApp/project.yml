@@ -1,4 +1,4 @@
-name: iosApp
+name: FinSim
 options:
   bundleIdPrefix: com.finsim
   deploymentTarget:
@@ -10,13 +10,13 @@ settings:
     ENABLE_USER_SCRIPT_SANDBOXING: NO
 
 targets:
-  iosApp:
+  FinSim:
     type: application
     platform: iOS
     sources:
-      - path: iosApp
+      - path: FinSim
     info:
-      path: iosApp/Info.plist
+      path: FinSim/Info.plist
       properties:
         CFBundleDisplayName: FinSim
         UILaunchScreen: {}
@@ -42,20 +42,20 @@ targets:
           API_BASE_URL: https://api-finsim.wharpe.com
 
 schemes:
-  iosApp-dev:
+  FinSim-dev:
     build:
       targets:
-        iosApp: all
+        FinSim: all
     run:
       config: Debug
     test:
       config: Debug
     archive:
       config: Debug
-  iosApp-prod:
+  FinSim-prod:
     build:
       targets:
-        iosApp: all
+        FinSim: all
     run:
       config: Release
     test:
