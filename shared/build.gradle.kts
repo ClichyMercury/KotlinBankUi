@@ -76,7 +76,7 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.datastore.preferences)
             implementation(libs.androidx.security.crypto)
             implementation(libs.koin.android)
